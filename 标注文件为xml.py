@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 
 # 假设每个数据集存放在不同的文件夹中
 datasets = {
-    "dataset2": "E:/数据集/MAR20/",
+    "MAR20": "E:/数据集/MAR20/",
 }
 
 # 初始化一个空列表，用于存储结果
@@ -14,7 +14,7 @@ data = []
 # 遍历每个数据集
 for dataset_name, dataset_path in datasets.items():
     image_folder = os.path.join(dataset_path, "image")
-    label_folder = os.path.join(dataset_path, "label")  # 假设标注文件在 labels 文件夹中，XML格式
+    label_folder = os.path.join(dataset_path, "Annotations/Horizontal Bounding Boxes")  # 假设标注文件在 labels 文件夹中，XML格式
 
     # 遍历每个图片文件
     for image_file in os.listdir(image_folder):
@@ -39,7 +39,7 @@ for dataset_name, dataset_path in datasets.items():
             root = tree.getroot()
 
             # 遍历每个对象
-            for member in root.findall('object'):
+            for idx, member in enumerate(root.findall('object')):
                 category = member.find('name').text
                 bbox = member.find('bndbox')
                 xmin = int(bbox.find('xmin').text)
@@ -50,12 +50,15 @@ for dataset_name, dataset_path in datasets.items():
                 bbox_width = xmax - xmin
                 bbox_height = ymax - ymin
 
+                # 创建对象命名格式
+                object_name = f"{os.path.splitext(image_file) [0]}_{category}_{idx + 1}"
+
                 # 将信息添加到列表中
                 data.append({
                     "Dataset": dataset_name,
                     "Category": category,
                     "Image_Name": image_file,
-                    "Object": "Object",  # 可以自定义具体对象信息
+                    "Object": object_name,  # 使用自定义对象命名格式
                     "BBox_Width": bbox_width,
                     "BBox_Height": bbox_height,
                     "Image_Width": img_width,

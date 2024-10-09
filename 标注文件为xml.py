@@ -5,7 +5,10 @@ import xml.etree.ElementTree as ET
 
 # 假设每个数据集存放在不同的文件夹中
 datasets = {
-    "MAR20": "E:/数据集/MAR20/",
+    # "MAR20": "E:/数据集/MAR20/",
+    "COWC_Potsdam_ISPRS": "E:/datasets/COWC/train_data/Potsdam_ISPRS",
+    "SSDD": "E:/datasets/Official-SSDD-OPEN/BBox_SSDD/voc_style",
+
 }
 
 # 初始化一个空列表，用于存储结果
@@ -14,7 +17,7 @@ data = []
 # 遍历每个数据集
 for dataset_name, dataset_path in datasets.items():
     image_folder = os.path.join(dataset_path, "image")
-    label_folder = os.path.join(dataset_path, "Annotations/Horizontal Bounding Boxes")  # 假设标注文件在 labels 文件夹中，XML格式
+    label_folder = os.path.join(dataset_path, "Annotations")  # 假设标注文件在 labels 文件夹中，XML格式
 
     # 遍历每个图片文件
     for image_file in os.listdir(image_folder):
@@ -38,8 +41,11 @@ for dataset_name, dataset_path in datasets.items():
             tree = ET.parse(label_path)
             root = tree.getroot()
 
+            # 创建一个字典来跟踪每个类别的计数
+            category_count = {}
+
             # 遍历每个对象
-            for idx, member in enumerate(root.findall('object')):
+            for member in root.findall('object'):
                 category = member.find('name').text
                 bbox = member.find('bndbox')
                 xmin = int(bbox.find('xmin').text)
@@ -50,8 +56,13 @@ for dataset_name, dataset_path in datasets.items():
                 bbox_width = xmax - xmin
                 bbox_height = ymax - ymin
 
+                # 更新类别计数
+                if category not in category_count:
+                    category_count [category] = 0
+                category_count [category] += 1
+
                 # 创建对象命名格式
-                object_name = f"{os.path.splitext(image_file) [0]}_{category}_{idx + 1}"
+                object_name = f"{os.path.splitext(image_file) [0]}_{category}_{category_count [category]}"
 
                 # 将信息添加到列表中
                 data.append({
@@ -69,7 +80,7 @@ for dataset_name, dataset_path in datasets.items():
 df = pd.DataFrame(data)
 
 # 将 DataFrame 写入 Excel 文件
-output_file = "dataset_statistics.xlsx"
+output_file = "dataset_statistics2.xlsx"
 df.to_excel(output_file, index=False)
 
 print(f"数据已成功写入 {output_file}")

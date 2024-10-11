@@ -6,9 +6,14 @@ import xml.etree.ElementTree as ET
 # 假设每个数据集存放在不同的文件夹中
 datasets = {
     # "MAR20": "E:/数据集/MAR20/",
-    "COWC_Potsdam_ISPRS": "E:/datasets/COWC/train_data/Potsdam_ISPRS",
-    "SSDD": "E:/datasets/Official-SSDD-OPEN/BBox_SSDD/voc_style",
-
+    # "FAIR1M":"F:\\目标样本\\object_detection\\FAIR1M\\train\\part1",
+    "20-Mar":"F:\\目标样本\\object_detection\\MAR20",
+    "SAR-Ship-Dataset":"F:\\目标样本\\object_detection\\SAR-Ship-Dataset",
+    "DIOR":"F:\\目标样本\\object_detection\\DIOR",
+    "HRRSD":"F:\\目标样本\\object_detection\\HRRSD\\TGRS-HRRSD-Dataset-master\\OPT2017",
+    "RSOD":"F:\\目标样本\\object_detection\\small_object\\RSOD\\aircraft",
+    "SSDD":"F:\\目标样本\\object_detection\\Official-SSDD-OPEN\\BBox_SSDD\\voc_style",
+    "HRSID":"F:\\目标样本\\object_detection\\HRSID_jpg\\HRSID_JPG",
 }
 
 # 初始化一个空列表，用于存储结果
@@ -16,12 +21,12 @@ data = []
 
 # 遍历每个数据集
 for dataset_name, dataset_path in datasets.items():
-    image_folder = os.path.join(dataset_path, "image")
+    image_folder = os.path.join(dataset_path, "JPEGimages")
     label_folder = os.path.join(dataset_path, "Annotations")  # 假设标注文件在 labels 文件夹中，XML格式
 
     # 遍历每个图片文件
     for image_file in os.listdir(image_folder):
-        if image_file.endswith(".jpg") or image_file.endswith(".png"):  # 检查图片格式
+        if image_file.endswith(".jpg") or image_file.endswith(".png") or image_file.endswith(".tif") or image_file.endswith(".tiff"):  # 检查图片格式
             image_path = os.path.join(image_folder, image_file)
 
             # 获取图片的尺寸
@@ -80,7 +85,10 @@ for dataset_name, dataset_path in datasets.items():
 df = pd.DataFrame(data)
 
 # 将 DataFrame 写入 Excel 文件
-output_file = "dataset_statistics2.xlsx"
-df.to_excel(output_file, index=False)
+# output_file = "voc.xlsx"
+# df.to_excel(output_file, index=False)
+# 将 DataFrame 写入 csv 文件
+output_file = "voc.csv"
+df.to_csv(output_file, index=False)
 
 print(f"数据已成功写入 {output_file}")

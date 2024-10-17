@@ -8,11 +8,12 @@ datasets = {
     "COWC_Selwyn_LINZ": "F:/目标样本/object_detection/COWC/train_data/Selwyn_LINZ",
     "COWC_Toronto_ISPRS": "F:/目标样本/object_detection/COWC/train_data/Toronto_ISPRS",
     "COWC_Utah_AGRC": "F:/目标样本/object_detection/COWC/train_data/Utah_AGRC",
-    "LEVIR":"",
-    "VisDrone":"",
-    "CARPK":"",
-    "":"",
-    "":"",
+    "LEVIR":"F:\\目标样本\\object_detection\\LEVIR",
+    "VisDrone":"F:\\目标样本\\object_detection\\VisDrone\\VisDrone2019_all",
+    "CARPK_CARPK_devkit":"F:\\目标样本\\object_detection\\CARPK\\datasets\\CARPK_devkit\\data",
+    "CARPK_PUCPR+_devkit":"F:\\目标样本\\object_detection\\CARPK\\datasets\\PUCPR+_devkit\\data",
+    "HRSC2016":"F:\\目标样本\\object_detection\\HRSC2016_dataset\\HRSC2016\\FullDataSet",
+    "NWPU_VHR-10":"F:\\目标样本\\object_detection\\NWPU_VHR-10\\汇总",
     # "dataset2": "E:/数据集/MAR20/",
     # 你可以继续添加更多的数据集路径
 }
@@ -22,8 +23,8 @@ data = []
 
 # 遍历每个数据集
 for dataset_name, dataset_path in datasets.items():
-    image_folder = os.path.join(dataset_path, "image")
-    label_folder = os.path.join(dataset_path, "label")  # 假设标注文件在 labels 文件夹中，YOLO 格式
+    image_folder = os.path.join(dataset_path, "images")
+    label_folder = os.path.join(dataset_path, "labels")  # 假设标注文件在 labels 文件夹中，YOLO 格式
 
     # 检查文件夹是否存在
     if not os.path.exists(image_folder) or not os.path.exists(label_folder):
@@ -32,7 +33,7 @@ for dataset_name, dataset_path in datasets.items():
 
     # 遍历每个图片文件
     for image_file in os.listdir(image_folder):
-        if image_file.endswith((".jpg", ".jpeg", ".png")):  # 检查图片格式
+        if image_file.endswith((".jpg", ".jpeg", ".png", ".bmp")):  # 检查图片格式
             image_path = os.path.join(image_folder, image_file)
 
             # 获取图片的尺寸
@@ -85,11 +86,11 @@ for dataset_name, dataset_path in datasets.items():
 df = pd.DataFrame(data)
 
 # 将 DataFrame 写入 Excel 文件
-output_file = "COWC_statistics3.xlsx"
-df.to_excel(output_file, index=False)
+# output_file = "COWC_statistics3.xlsx"
+# df.to_excel(output_file, index=False)
 # 将 DataFrame 写入 csv 文件
-# output_file = "COWC_statistics3.csv"
-# df.to_csv(output_file, index=False)
+output_file = "YOLO_1017.csv"
+df.to_csv(output_file, index=False)
 
 
 print(f"数据已成功写入 {output_file}")

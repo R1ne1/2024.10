@@ -1,7 +1,7 @@
 import pandas as pd
 
 # 读取标签文件和映射表文件，指定编码
-data = pd.read_csv(r'C:\Users\Administrator\Desktop\2024.10-main\YOLO_HRSC2016.csv', encoding='utf-8')
+data = pd.read_csv(r'C:\Users\Administrator\Desktop\2024.10-main\YOLO_1017.csv', encoding='utf-8')
 mapping = pd.read_csv(r'C:\Users\Administrator\Desktop\2024.10-main\yolo映射表.csv', encoding='utf-8')
 
 # 定义映射函数
@@ -21,6 +21,9 @@ def map_class_name(row):
 data['Category'] = data.apply(map_class_name, axis=1)
 
 # 保存结果时指定编码，避免中文乱码
-data.to_csv(r'C:\Users\Administrator\Desktop\2024.10-main\updated_dataset_labels.csv', encoding='utf-8-sig', index=False)
+# data.to_csv(r'C:\Users\Administrator\Desktop\2024.10-main\updated_dataset_labels.csv', encoding='utf-8-sig', index=False)
+#
+# print("替换完成，文件已保存为 'updated_YOLO_1017.csv'")
+data.to_csv(r'C:\Users\Administrator\Desktop\2024.10-main\updated_YOLO_1017.csv', encoding='utf-8-sig', index=False)
 
-print("替换完成，文件已保存为 'updated_dataset_labels.csv'")
+print("替换完成，文件已保存为 'updated_YOLO_1017.csv'")

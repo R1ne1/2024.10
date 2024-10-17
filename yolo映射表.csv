@@ -32,6 +32,7 @@ HRSC2016,30,运输汽车船
 HRSC2016,31,福特级航空母舰
 HRSC2016,32,中途号航母
 HRSC2016,33,无敌级航空母舰
+NWPU_VHR-10,0,airplane
 NWPU_VHR-10,1,ship
 NWPU_VHR-10,2,storage tank
 NWPU_VHR-10,3,baseball diamond
@@ -41,6 +42,7 @@ NWPU_VHR-10,6,ground track field
 NWPU_VHR-10,7,harbor
 NWPU_VHR-10,8,bridge
 NWPU_VHR-10,9,vehicle
+VisDrone,0,pedestrian
 VisDrone,1,people
 VisDrone,2,bicycle
 VisDrone,3,car
